@@ -6,7 +6,7 @@ CSV imports for Active Admin with one line of code.
 
 Add this line to your application's Gemfile:
 
-    gem 'active_admin_importable', :git => "git://github.com/krhorst/active_admin_importable.git"
+    gem 'active_admin_importable'
 
 And then execute:
 
