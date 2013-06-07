@@ -1,7 +1,7 @@
 require 'csv'
 class CsvDb
   class << self
-    def convert_save(target_model, csv_data, &block)
+    def convert_save(target_model, csv_data, role = :default, &block)
       csv_file = csv_data.read
       CSV.parse(csv_file, :headers => true, header_converters: :symbol ) do |row|
         data = row.to_hash
@@ -9,7 +9,7 @@ class CsvDb
           if (block_given?)
              block.call(target_model, data)
            else
-             target_model.create!(data)
+             target_model.create!(data, as: role)
            end
          end
       end
