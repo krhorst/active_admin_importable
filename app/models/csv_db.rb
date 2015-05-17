@@ -1,12 +1,10 @@
-require 'csv'
 require 'roo'
 
 class CsvDb
   class << self
     def convert_save(target_model, file, &block)
       spreadsheet = open_spreadsheet(file)
-      spreadsheet.force_encoding(Encoding::UTF_8)
-
+      # spreadsheet.force_encoding(Encoding::UTF_8)
       header = spreadsheet.row(1)
       (2..spreadsheet.last_row).each do |i|
         data = Hash[[header, spreadsheet.row(i)].transpose]
@@ -23,9 +21,9 @@ class CsvDb
 
     def open_spreadsheet(file)
         case File.extname(file.original_filename)
-          when '.csv' then Csv.new(file.path, nil, :ignore)
-          when '.xls' then Excel.new(file.path, nil, :ignore)
-          when '.xlsx' then Excelx.new(file.path, nil, :ignore)
+          when '.csv' then Roo::CSV.new(file.path, nil, :ignore)
+          when '.xls' then Roo::Excel.new(file.path, nil, :ignore)
+          when '.xlsx' then Roo::Excelx.new(file.path, nil, :ignore)
           else raise "Unknown file type: #{file.original_filename}"
         end
     end
