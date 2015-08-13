@@ -37,6 +37,9 @@ class CsvDb
         if (block_given?)
           block.call(target_model, data)
         else
+
+          options[:before_save].call(data) if options[:before_save]
+
           role = options[:role] || :default
           if key_field = options[:find_by]
             create_or_update! target_model, data, key_field

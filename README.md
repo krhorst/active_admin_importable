@@ -28,16 +28,20 @@ The Import button should now appear. Click it and upload a CSV file with a heade
 ## Usefull options
 
 
-    active_admin_importable :reset_pk_sequence => true, :find_by => :id
+    active_admin_importable options
 
 
-*  ``:find_by``
+*  ``:find_by => :id``
 
-  Will try find every row by ID (or specified field) and update or create it.
+  Try find row by ID (or specified field) and update or create it.
 
-*  ``:reset_pk_sequence``
+*  ``:reset_pk_sequence => true``
 
   After process primary key sequence will by reset (tested on PostgreSQL).
+
+*  ``:before_save => proc { |row| row[:salary] ||= 0 }``
+
+  Modify field values before write (and before find, if present).
 
 ## Custom Import Behavior
 
