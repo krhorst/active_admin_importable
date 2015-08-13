@@ -1,6 +1,7 @@
 module ActiveAdminImportable
   module DSL
-    def active_admin_importable(&block)
+    def active_admin_importable(options = {}, &block)
+
       action_item :only => :index do
         link_to "Import #{active_admin_config.resource_name.to_s.pluralize}", :action => 'upload_csv'
       end
@@ -10,8 +11,8 @@ module ActiveAdminImportable
       end
 
       collection_action :import_csv, :method => :post do
-        role = resources_configuration[:self][:role] || :default
-        CsvDb.convert_save(active_admin_config.resource_class, params[:dump][:file], role, &block)
+        role = resources_configuration[:self][:role]
+        CsvDb.convert_save(active_admin_config.resource_class, params[:dump][:file], options.merge(:role=>role), &block)
         flash[:notice] = "#{active_admin_config.resource_name.to_s} imported successfully!"
         redirect_to :action => :index
       end
