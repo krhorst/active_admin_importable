@@ -21,7 +21,7 @@ class CsvDb
       begin
         target_model.transaction do
           parser_class.parse(csv_file, :headers => true, :header_converters => :symbol ) do |row|
-            append_row(target_model, row, options, block)
+            append_row(target_model, row, options, &block)
           end
         end
       ensure
@@ -31,7 +31,7 @@ class CsvDb
       end
     end
 
-    def append_row(target_model, row, options, block)
+    def append_row(target_model, row, options, &block)
       data = row.to_hash
       if data.present?
         if (block_given?)
