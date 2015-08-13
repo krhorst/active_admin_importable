@@ -26,7 +26,7 @@ class CsvDb
         end
       ensure
         if options[:reset_pk_sequence]
-          target_model.reset_pk_sequence!
+          target_model.connection.reset_pk_sequence! target_model.table_name
         end
       end
     end

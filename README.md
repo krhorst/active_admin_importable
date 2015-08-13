@@ -21,24 +21,36 @@ Or install it yourself as:
 Add the following line into your active admin resource:
 
 
-   active_admin_importable
+    active_admin_importable
 
 The Import button should now appear. Click it and upload a CSV file with a header row corresponding to your model attributes. Press submit. Profit.
+
+## Usefull options
+
+
+    active_admin_importable :reset_pk_sequence => true, :find_by => :id
+
+
+*  ``:find_by``
+
+  Will try find every row by ID (or specified field) and update or create it.
+
+*  ``:reset_pk_sequence``
+
+  After process primary key sequence will by reset (tested on PostgreSQL).
 
 ## Custom Import Behavior
 
 Need to do something special with the import? active_admin_importable accepts an optional block that will be called on each row, replacing the default functionality ( calling create! on the associated model). The associated model and a hash of the current row will get passed into the block. For example:
 
-```
-ActiveAdmin.register Product do
-   active_admin_importable do |model, hash|
-      store = Store.find_by_name(hash[:store_name])
-      hash[:store_id] = store.id
-      hash.delete(:store_name)
-      model.create!(hash)
-   end
-end
-```
+    ActiveAdmin.register Product do
+      active_admin_importable do |model, hash|
+        store = Store.find_by_name(hash[:store_name])
+        hash[:store_id] = store.id
+        hash.delete(:store_name)
+        model.create!(hash)
+      end
+    end
 
 ## Contributing
 
