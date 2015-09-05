@@ -1,15 +1,17 @@
 require 'csv'
 class CsvDb
   class << self
-    def convert_save(model_name, csv_data)
+    def convert_save(target_model, csv_data, &block)
       csv_file = csv_data.read
       CSV.parse(csv_file, :headers => true, header_converters: :symbol ) do |row|
-        target_model = model_name.classify.constantize
-        if( target_model.respond_to? 'import_from_hash' ) 
-          target_model.import_from_hash( row.to_hash )
-        else
-          target_model.create!(row.to_hash)
-        end
+        data = row.to_hash
+        if data.present?
+          if (block_given?)
+             block.call(target_model, data)
+           else
+             target_model.create!(data)
+           end
+         end
       end
     end
   end
