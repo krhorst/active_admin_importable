@@ -40,6 +40,20 @@ ActiveAdmin.register Product do
 end
 ```
 
+## Parsing Options
+
+ActiveAdminImportable uses [CSV.parse](http://ruby-doc.org/stdlib-2.2.2/libdoc/csv/rdoc/CSV.html#method-c-parse) to parse your uploaded CSV. You can pass in any standard options via the optional param to active_admin_importable:
+
+```
+ActiveAdmin.register Product do
+  active_admin_importable(
+    col_sep: ':',
+    quote_char: "'",
+    header_converters: ->(h) { h.underscore.to_sym }
+  )
+end
+```
+
 ## Contributing
 
 1. Fork it
