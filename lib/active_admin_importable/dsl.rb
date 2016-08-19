@@ -10,8 +10,10 @@ module ActiveAdminImportable
       end
 
       collection_action :import_csv, :method => :post do
-        CsvDb.convert_save(active_admin_config.resource_class, params[:dump][:file], &block)
-        redirect_to :action => :index, :notice => "#{active_admin_config.resource_name.to_s} imported successfully!"
+        CsvDb.convert_save(active_admin_config.resource_class, params[:dump][:file], self, &block)
+        # redirect_to :action => :index, :notice => "#{active_admin_config.resource_name.to_s} imported successfully!"
+        redirect_to collection_path, notice: "CSV imported successfully!"
+
       end
     end
   end
