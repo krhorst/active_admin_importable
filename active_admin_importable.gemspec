@@ -8,6 +8,8 @@ Gem::Specification.new do |gem|
   gem.summary       = "Add CSV import to Active Admin resources with one line."
   gem.homepage      = "http://github.com/krhorst/active_admin_importable"
 
+  gem.add_runtime_dependency 'rchardet', '~> 1.6'
+
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
