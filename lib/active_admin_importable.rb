@@ -3,4 +3,3 @@ require 'active_admin_importable/engine'
 require 'active_admin_importable/dsl'
 
 ::ActiveAdmin::DSL.send(:include, ActiveAdminImportable::DSL)
-
