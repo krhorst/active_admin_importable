@@ -19,7 +19,6 @@ module ActiveAdminImportable
       options[:action] ||= "import_#{name}"
       options[:form_action] ||= "upload_#{name}"
       options[:view] ||= "admin/csv/upload"
-      options[:encoding] ||= "utf-8"
 
       action_item :edit, :only => :index do
         link_to options[:action].titleize, :action => options[:form_action]
@@ -30,7 +29,7 @@ module ActiveAdminImportable
       end
 
       collection_action(options[:action], :method => :post) do
-        CsvDb.convert_save(active_admin_config.resource_class, params[:dump][:file], self, encoding: options[:encoding], &block)
+        CsvDb.convert_save(active_admin_config.resource_class, params[:dump][:file], self, &block)
         redirect_to collection_path, notice: "CSV imported successfully!"
       end
     end
