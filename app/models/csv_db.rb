@@ -17,7 +17,7 @@ class CsvDb
                target_model.create!(data)
              end
            end
-         rescue => e
+         rescue ::ArgumentError => e
            puts "FAILED TO PARSE ROW #{current_row}"
            failed_rows << current_row
            puts e.inspect
