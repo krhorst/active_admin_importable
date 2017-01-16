@@ -1,8 +1,12 @@
 require 'csv'
+require 'digest'
 class CsvDb
   class << self
     def convert_save(target_model, csv_data, controller_instance, &block)
       csv_file = csv_data.read
+      md5 = ::Digest::MD5.new
+      md5 << csv_file
+      puts "STARTING IMPORT #{md5}"
       current_row = 0
       failed_rows = []
 
@@ -18,13 +22,13 @@ class CsvDb
              end
            end
          rescue ::ArgumentError => e
-           puts "FAILED TO PARSE ROW #{current_row}"
+           puts "IMPORT ##{md5} FAILED TO PARSE ROW #{current_row}"
            failed_rows << current_row
            puts e.inspect
          end
       end
 
-      puts "FAILED TO PARSE ROWS #{failed_rows}" if failed_rows.any?
+      puts "IMPORT ##{md5} FAILED TO PARSE ROWS #{failed_rows}" if failed_rows.any?
     end
   end
 end
