@@ -10,7 +10,7 @@ module ActiveAdminImportable
       end
 
       collection_action :import_csv, :method => :post do
-        flash[:error] = result.attributes
+        flash[:error] = 'Error test'
         redirect_to :action => :index
         result = CsvDb.convert_save(active_admin_config.resource_class, params[:dump][:file], &block)
         if result
