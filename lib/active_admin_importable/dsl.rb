@@ -12,7 +12,8 @@ module ActiveAdminImportable
       collection_action :import_csv, :method => :post do
         result = CsvDb.convert_save(active_admin_config.resource_class, params[:dump][:file], &block)
         if result
-          flash[:error] = result.attributes
+          flash[:error] = result.last
+          flash[:error] = result.first.first
         else
           flash[:notice] = "#{active_admin_config.resource_name.to_s} imported successfully!"
         end
