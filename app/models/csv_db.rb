@@ -11,16 +11,18 @@ class CsvDb
           char_code(file_data[2]) == 0xBF
     end
 
+    # @return [String]
     def remove_bom(file_data)
       has_bom(file_data) ? file_data[3..-1] : file_data
     end
 
     def convert_save(target_model, csv_data, options, &block)
-      csv_file = remove_bom(csv_data.read)
+      csv_data = remove_bom(csv_data.read)
+      csv_data = csv_data.force_encoding('utf-8') if csv_data.respond_to?(:force_encoding)
       parser_class = (RUBY_VERSION=='1.8.7') ? FasterCSV : CSV
       begin
         target_model.transaction do
-          parser_class.parse(csv_file, :headers => true, :header_converters => :symbol ) do |row|
+          parser_class.parse(csv_data, :headers => true, :header_converters => :symbol) do |row|
             append_row(target_model, row, options, &block)
           end
         end
