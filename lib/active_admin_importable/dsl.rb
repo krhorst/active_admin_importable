@@ -13,7 +13,7 @@ module ActiveAdminImportable
       collection_action :import_csv, :method => :post do
         begin
           ActiveRecord::Base.transaction do
-            CsvDb.convert_save(active_admin_config.resource_class, params[:dump][:file], &block)
+            CsvDb.convert_save(active_admin_config.resource_class, params[:dump][:file], options[:validator], &block)
           end
           flash[:notice] = "#{active_admin_config.resource_name.to_s.pluralize} imported successfully!"
         rescue StandardError => e
